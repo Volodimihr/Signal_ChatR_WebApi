@@ -1,4 +1,3 @@
-
 namespace Signal_ChatR_WebApi
 {
     public class Program
