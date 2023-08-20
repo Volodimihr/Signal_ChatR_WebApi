@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Signal_ChatR_WebApi.Models
 {
@@ -7,8 +8,10 @@ namespace Signal_ChatR_WebApi.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [ForeignKey("FK_Msg_Room")]
         public int RoomId { get; set; }
         [Required]
+        [ForeignKey("FK_Msg_User")]
         public int UserId { get; set; }
         public string? MsgText { get; set; }
         public string? MsgFilePath { get; set;}
