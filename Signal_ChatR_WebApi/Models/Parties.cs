@@ -10,8 +10,10 @@ namespace Signal_ChatR_WebApi.Models
         [Required]
         [ForeignKey("FK_Parties_Room")]
         public int RoomId { get; set; }
+        public Room? Room { get; set; }
         [Required]
         [ForeignKey("FK_Parties_User")]
         public int UserId { get; set; }
+        public User? User { get; set; }
     }
 }

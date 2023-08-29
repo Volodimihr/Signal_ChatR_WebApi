@@ -10,5 +10,7 @@ namespace Signal_ChatR_WebApi.Models
         public string? Name { get; set; }
         [Required]
         public bool IsPrivate { get; set; }
+
+        public ICollection<Parties>? Parties { get; set; }
     }
 }
