@@ -15,7 +15,7 @@ namespace Signal_ChatR_WebApi.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("login/{email}{password}")]
         public async Task<ActionResult<User>> Login(string email, string password)
         {
             if (_context.Users == null)
@@ -32,7 +32,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
             HttpContext.Session.SetInt32("UserId", user.Id);
 
-            return NoContent();
+            return Ok();
         }
 
         // GET: api/Users
