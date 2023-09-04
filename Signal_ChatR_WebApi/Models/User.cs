@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Signal_ChatR_WebApi.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         [Key]
@@ -15,9 +17,11 @@ namespace Signal_ChatR_WebApi.Models
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         [PasswordPropertyText(true)]
         public string Password { get; set; }
-        public string AvatarPath { get; set; }
+        public string? AvatarPath { get; set; }
+
+        public ICollection<Parties>? Parties { get; set; }
     }
 }

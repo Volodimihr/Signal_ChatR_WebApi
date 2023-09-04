@@ -6,10 +6,11 @@ namespace Signal_ChatR_WebApi.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [Required]
         public bool IsPrivate { get; set; }
+
+        public ICollection<Parties>? Parties { get; set; }
     }
 }
