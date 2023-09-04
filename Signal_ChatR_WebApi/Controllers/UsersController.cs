@@ -15,6 +15,26 @@ namespace Signal_ChatR_WebApi.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<User>> Login(string email, string password)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            HttpContext.Session.SetInt32("UserId", user.Id);
+
+            return NoContent();
+        }
+
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()

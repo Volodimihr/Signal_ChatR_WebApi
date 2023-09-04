@@ -29,6 +29,13 @@ namespace Signal_ChatR_WebApi
                 });
             });
 
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -47,6 +54,8 @@ namespace Signal_ChatR_WebApi
             app.MapControllers();
 
             app.UseCors();
+
+            app.UseSession();
 
             app.MapHub<ChatHub>("/notify");
 
