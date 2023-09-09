@@ -15,7 +15,7 @@ namespace Signal_ChatR_WebApi.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult<User>> Login(string email, string password)
         {
             if (_context.Users == null)
@@ -32,7 +32,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
             HttpContext.Session.SetInt32("UserId", user.Id);
 
-            return NoContent();
+            return Ok();
         }
 
         // GET: api/Users
@@ -97,7 +97,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             if (_context.Users == null)
