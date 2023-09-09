@@ -23,7 +23,7 @@ function Login() {
               <input type="text" name='email' onChange={handleChange} />
             </div>
             <div className='form-group'>
-              <label htmlFor="password" className='form-label'>Email</label>
+              <label htmlFor="password" className='form-label'>Password</label>
               <input type="password" name='password' className='form-control' onChange={handleChange} />
             </div>
             <div className='form-group'>
