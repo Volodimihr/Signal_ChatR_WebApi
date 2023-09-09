@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal_ChatR_WebApi", "Signal_ChatR_WebApi\Signal_ChatR_WebApi.csproj", "{444C1B12-0BF9-4E40-9816-AB34708D6D89}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "signal_chatr_web", "Signal_ChatR_Web\signal_chatr_web.esproj", "{5956FE97-088B-4B35-9A91-2051BF5C488D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +15,6 @@ Global
 		{444C1B12-0BF9-4E40-9816-AB34708D6D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{444C1B12-0BF9-4E40-9816-AB34708D6D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{444C1B12-0BF9-4E40-9816-AB34708D6D89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5956FE97-088B-4B35-9A91-2051BF5C488D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
