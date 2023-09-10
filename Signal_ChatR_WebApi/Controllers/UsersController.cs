@@ -14,16 +14,16 @@ namespace Signal_ChatR_WebApi.Controllers
         {
             _context = context;
         }
-
+    
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(string email, string password)
+        public async Task<ActionResult<User>> Login(LoginDTO userData)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
 
-            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userData.Email && u.Password == userData.Password);
 
             if (user == null)
             {
