@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-function Register({ baseUrl }) {
+function Register({ baseUrl, toReg }) {
 
-  const [userToReg, setUserToReg] = useState({ name: null, email: null, password: null, avatarPath: null });
+    const [userToReg, setUserToReg] = useState({ id: 0, name: null, email: null, password: null, avatarPath: null, parties: null });
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -18,15 +18,25 @@ function Register({ baseUrl }) {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(userData);
+      event.preventDefault();
+
+      let reader = new FileReader();
+      reader.readAsDataURL(userToReg.avatarPath);
+      reader.onload = () => {
+        userToReg.avatarPath = reader.result;
+      }
+
+      console.log(userToReg);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userToReg)
     };
-    const data = await fetch(`${baseUrl}Users/register`, requestOptions);
-    console.log(data);
+      const data = await fetch(`${baseUrl}Users/register`, requestOptions);
+      console.log(data);
+    if(data.status === 201){
+      toReg(true);
+    }
   }
 
   return (
@@ -50,7 +60,7 @@ function Register({ baseUrl }) {
           <input type="file" name='avatarPath' className='form-control' onChange={handleChange} />
         </div>
         <div className="form-group">
-          {userToReg.avatarPath && <img src={URL.createObjectURL(userToReg.avatarPath)} alt="avatar" />}
+          {userToReg.avatarPath && <img src={userToReg.avatarPath} alt="avatar" />}
         </div>
         <div className='form-group'>
           <input type="submit" className='form-control bg-success text-white mt-3' value={"Register"} />

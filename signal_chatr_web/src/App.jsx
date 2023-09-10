@@ -22,7 +22,7 @@ function App() {
         return (
             <div>
                 {reg
-                    ? <Register baseUrl={baseUrl} />
+                    ? <Register baseUrl={baseUrl} toReg={setReg} />
                     : <Login baseUrl={baseUrl} toReg={setReg} />
                 }
             </div>
