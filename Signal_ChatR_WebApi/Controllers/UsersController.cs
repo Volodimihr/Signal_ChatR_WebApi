@@ -14,7 +14,7 @@ namespace Signal_ChatR_WebApi.Controllers
         {
             _context = context;
         }
-    
+
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(LoginDTO userData)
         {
@@ -104,6 +104,10 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Users'  is null.");
             }
+
+            byte[] imageBytes = Convert.FromBase64String(user.AvatarPath.Split(',').Last());
+            System.IO.File.WriteAllBytes($"Avatars/{user.Email}.png", imageBytes);
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
