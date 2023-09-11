@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
-function Register({ baseUrl, toReg }) {
+function Register({ baseUrl }) {
 
     const [userToReg, setUserToReg] = useState({ id: 0, name: null, email: null, password: null, avatarPath: null, parties: null });
 
@@ -13,7 +14,6 @@ function Register({ baseUrl, toReg }) {
         else {
             value = event.target.value;
         }
-        console.log(value);
         setUserToReg(values => ({ ...values, [name]: value }));
     }
 
@@ -37,7 +37,6 @@ function Register({ baseUrl, toReg }) {
             userToReg.avatarPath = await convertBase64(userToReg.avatarPath);
         }
 
-        console.log(JSON.stringify(userToReg));
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -46,7 +45,7 @@ function Register({ baseUrl, toReg }) {
         const data = await fetch(`${baseUrl}Users/register`, requestOptions);
         console.log(data);
         if (data.status === 201) {
-            toReg(true);
+            <Navigate to={'/login'} />
         }
     }
 

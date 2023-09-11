@@ -32,7 +32,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
             HttpContext.Session.SetInt32("UserId", user.Id);
 
-            return Ok();
+            return Ok(user.Id);
         }
 
         // GET: api/Users
@@ -106,7 +106,10 @@ namespace Signal_ChatR_WebApi.Controllers
             }
 
             byte[] imageBytes = Convert.FromBase64String(user.AvatarPath.Split(',').Last());
-            System.IO.File.WriteAllBytes($"Avatars/{user.Email}.png", imageBytes);
+            string avatarPath = $"Avatars/{user.Email}.png";
+            System.IO.File.WriteAllBytes(avatarPath, imageBytes);
+
+            user.AvatarPath = avatarPath;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

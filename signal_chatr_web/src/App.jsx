@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css'
 import Login from './Components/Login'
 import Register from './Components/Register';
+import { useEffect } from 'react';
+import Chat from './Components/Chat';
 
 function App() {
 
@@ -10,23 +12,27 @@ function App() {
 
     const baseUrl = 'http://localhost:5000/api/';
 
-    const [userId, setUserId] = useState(sessionStorage.getItem("UserId"));
-    const [reg, setReg] = useState(false);
-    console.log(userId);
+    const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
 
-    const handleClick = () => {
+    useEffect(() => {
+        console.log(userId);
+    });
 
-    }
 
-    if (userId === null || userId === "")
-        return (
-            <div>
-                {reg
-                    ? <Register baseUrl={baseUrl} toReg={setReg} />
-                    : <Login baseUrl={baseUrl} toReg={setReg} />
-                }
-            </div>
-        );
+    return (
+        <div>
+            <Routes>
+                <Route path='/' element={<Chat baseUrl={baseUrl} />} />
+                <Route path='register' element={<Register baseUrl={baseUrl} />} />
+                <Route path='login' element={<Login baseUrl={baseUrl} userId={setUserId} />} />
+            </Routes>
+            {
+                userId === null || userId === ""
+                    ? <Navigate to={'/login'} />
+                    : <Navigate to={'/'} />
+            }
+        </div>
+    );
 }
 
 export default App
