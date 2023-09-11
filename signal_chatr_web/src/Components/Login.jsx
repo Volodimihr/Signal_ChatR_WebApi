@@ -19,13 +19,11 @@ function Login({ baseUrl, userId }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
         };
-        const resp = await fetch(`${baseUrl}Users/login`, requestOptions)
+
+        await fetch(`${baseUrl}Users/login`, requestOptions)
             .then(response => response.json())
             .then(data => userId(data))
             .catch(err => console.error(err));
-        if (resp.status === 200) {
-            <Navigate to={'/chat'} />
-        }
     }
 
     return (

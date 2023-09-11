@@ -16,13 +16,13 @@ function App() {
 
     useEffect(() => {
         console.log(userId);
-    });
+    }, [userId]);
 
 
     return (
         <div>
             <Routes>
-                <Route path='/' element={<Chat baseUrl={baseUrl} />} />
+                <Route path='/' element={<Chat baseUrl={baseUrl} userId={setUserId} />} />
                 <Route path='register' element={<Register baseUrl={baseUrl} />} />
                 <Route path='login' element={<Login baseUrl={baseUrl} userId={setUserId} />} />
             </Routes>
