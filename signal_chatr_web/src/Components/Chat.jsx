@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from 'Header';
-import Msgsarea from 'Msgsarea';
-import Sender from 'Sender';
-import Rooms from 'Rooms';
+import Header from '../Components/Header';
+import Msgsarea from '../Components/Msgsarea';
+import Sender from '../Components/Sender';
+import Rooms from '../Components/Rooms';
 
 export default function Chat({ userId }) {
 
