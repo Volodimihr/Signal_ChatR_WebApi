@@ -43,7 +43,7 @@ function Register({ baseUrl }) {
             body: JSON.stringify(userToReg)
         };
         const data = await fetch(`${baseUrl}Users/register`, requestOptions);
-        console.log(data);
+        //console.log(data);
         if (data.status === 201) {
             <Navigate to={'/login'} />
         }
@@ -55,19 +55,19 @@ function Register({ baseUrl }) {
             <form onSubmit={handleSubmit} method='post' encType='multipart/form-data'>
                 <div className='form-group'>
                     <label htmlFor="name" className='form-label'>Name</label>
-                    <input type="text" name='name' className='form-control' onChange={handleChange} />
+                    <input type="text" id='name' name='name' className='form-control' onChange={handleChange} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor="email" className='form-label'>Email</label>
-                    <input type="text" name='email' className='form-control' onChange={handleChange} />
+                    <input type="text" id='email' name='email' className='form-control' onChange={handleChange} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor="password" className='form-label'>Password</label>
-                    <input type="password" name='password' className='form-control' onChange={handleChange} />
+                    <input type="password" id='password' name='password' className='form-control' onChange={handleChange} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor="avatarPath" className='form-label'>Avatar</label>
-                    <input type="file" name='avatarPath' className='form-control' onChange={handleChange} />
+                    <input type="file" id='avatarPath' name='avatarPath' className='form-control' onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     {userToReg.avatarPath && <img src={URL.createObjectURL(userToReg.avatarPath)} alt="avatar" />}

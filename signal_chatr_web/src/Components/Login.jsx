@@ -13,7 +13,7 @@ function Login({ baseUrl, userId }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(userData);
+        //console.log(userData);
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -21,7 +21,7 @@ function Login({ baseUrl, userId }) {
         };
 
         await fetch(`${baseUrl}Users/login`, requestOptions)
-            .then(response => response.json())
+            .then(response => response.status === 200 ? response.json() : null)
             .then(data => userId(data))
             .catch(err => console.error(err));
     }
@@ -32,11 +32,11 @@ function Login({ baseUrl, userId }) {
             <form onSubmit={handleSubmit} method='post' >
                 <div className='form-group'>
                     <label htmlFor="email" className='form-label'>Email</label>
-                    <input type="text" name='email' className='form-control' onChange={handleChange} />
+                    <input type="text" id='email' name='email' className='form-control' onChange={handleChange} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor="password" className='form-label'>Password</label>
-                    <input type="password" name='password' className='form-control' onChange={handleChange} />
+                    <input type="password" id='password' name='password' className='form-control' onChange={handleChange} />
                 </div>
                 <div className='form-group'>
                     <input type="submit" className='form-control bg-success text-white mt-3' value={"Login"} />

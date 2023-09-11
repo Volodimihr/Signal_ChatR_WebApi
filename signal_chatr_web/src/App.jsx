@@ -13,9 +13,10 @@ function App() {
     const baseUrl = 'http://localhost:5000/api/';
 
     const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
-
+    
     useEffect(() => {
-        console.log(userId);
+        //console.log(userId);
+        sessionStorage.setItem("userId", userId);
     }, [userId]);
 
 
