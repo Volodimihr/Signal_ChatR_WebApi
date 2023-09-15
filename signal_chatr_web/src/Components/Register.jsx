@@ -50,32 +50,34 @@ function Register({ baseUrl }) {
     }
 
     return (
-        <div className='rounded rounded-3 border border-2 shadow p-5' style={{ backgroundColor: 'whiteSmoke' }}>
-            <h1>Registration</h1>
-            <form onSubmit={handleSubmit} method='post' encType='multipart/form-data'>
-                <div className='form-group'>
-                    <label htmlFor="name" className='form-label'>Name</label>
-                    <input type="text" id='name' name='name' className='form-control' onChange={handleChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="email" className='form-label'>Email</label>
-                    <input type="text" id='email' name='email' className='form-control' onChange={handleChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="password" className='form-label'>Password</label>
-                    <input type="password" id='password' name='password' className='form-control' onChange={handleChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="avatarPath" className='form-label'>Avatar</label>
-                    <input type="file" id='avatarPath' name='avatarPath' className='form-control' onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                    {userToReg.avatarPath && <img src={URL.createObjectURL(userToReg.avatarPath)} alt="avatar" />}
-                </div>
-                <div className='form-group'>
-                    <input type="submit" className='form-control bg-success text-white mt-3' value={"Register"} />
-                </div>
-            </form>
+        <div className="align-self-center mx-auto">
+            <div className='rounded rounded-3 border border-2 shadow p-5' style={{ backgroundColor: 'whiteSmoke' }}>
+                <h1>Registration</h1>
+                <form onSubmit={handleSubmit} method='post' encType='multipart/form-data'>
+                    <div className='form-group'>
+                        <label htmlFor="name" className='form-label'>Name</label>
+                        <input type="text" id='name' name='name' className='form-control' onChange={handleChange} />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="email" className='form-label'>Email</label>
+                        <input type="text" id='email' name='email' className='form-control' onChange={handleChange} />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="password" className='form-label'>Password</label>
+                        <input type="password" id='password' name='password' className='form-control' onChange={handleChange} />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="avatarPath" className='form-label'>Avatar</label>
+                        <input type="file" id='avatarPath' name='avatarPath' className='form-control' onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        {userToReg.avatarPath && <img src={URL.createObjectURL(userToReg.avatarPath)} alt="avatar" />}
+                    </div>
+                    <div className='form-group'>
+                        <input type="submit" className='form-control bg-success text-white mt-3' value={"Register"} />
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

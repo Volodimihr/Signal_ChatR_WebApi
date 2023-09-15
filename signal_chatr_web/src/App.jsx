@@ -13,25 +13,23 @@ function App() {
     const baseUrl = 'http://localhost:5000/api/';
 
     const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
-    
-    useEffect(() => {
-        //console.log(userId);
-        sessionStorage.setItem("userId", userId);
-    }, [userId]);
+
+    const handleUserIdChange = async(userId) => {
+        setUserId(userId);
+    }
 
 
     return (
-        <div>
-            <Routes>
-                <Route path='/' element={<Chat baseUrl={baseUrl} userId={setUserId} />} />
-                <Route path='register' element={<Register baseUrl={baseUrl} />} />
-                <Route path='login' element={<Login baseUrl={baseUrl} userId={setUserId} />} />
-            </Routes>
+        <div className='w-100 h-100 d-flex'>
             {
-                userId === null || userId === ""
-                    ? <Navigate to={'/login'} />
-                    : <Navigate to={'/'} />
+                userId && ( <Navigate to={'/signal'} replace={true} />)
             }
+            <Routes>
+                <Route path='/' element={<Navigate to={'/login'} replace={true} />} />
+                <Route path='login' element={<Login baseUrl={baseUrl} userId={handleUserIdChange} />} />
+                <Route path='register' element={<Register baseUrl={baseUrl} />} />
+                <Route path='signal' element={<Chat baseUrl={baseUrl} userId={userId} setUserId={setUserId} />} />
+            </Routes>
         </div>
     );
 }

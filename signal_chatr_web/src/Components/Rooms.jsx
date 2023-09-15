@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Rooms() {
   return (
-    <div>Rooms</div>
+    <div className='rooms w-25 bg-white'>
+      Rooms
+    </div>
   )
 }

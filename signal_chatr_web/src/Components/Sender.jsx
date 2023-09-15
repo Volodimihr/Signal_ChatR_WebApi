@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Sender() {
   return (
-    <div>Sender</div>
+    <div className='sender'>
+      Sender
+    </div>
   )
 }
