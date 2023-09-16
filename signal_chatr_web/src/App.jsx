@@ -5,6 +5,7 @@ import Login from './Components/Login'
 import Register from './Components/Register';
 import { useEffect } from 'react';
 import Chat from './Components/Chat';
+import useSessionStorageState from 'use-session-storage-state';
 
 function App() {
 
@@ -12,21 +13,19 @@ function App() {
 
     const baseUrl = 'http://localhost:5000/api/';
 
-    const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
-
-    const handleUserIdChange = async(userId) => {
-        setUserId(userId);
-    }
-
+    const [userId, setUserId] = useSessionStorageState('userId', { defaultValue: null });
+    console.log(userId);
+    console.log(typeof(userId));
+    console.log(userId === null);
 
     return (
         <div className='w-100 h-100 d-flex'>
             {
-                userId && ( <Navigate to={'/signal'} replace={true} />)
+                userId !== null && (<Navigate to={'/signal'} replace={true} />)
             }
             <Routes>
                 <Route path='/' element={<Navigate to={'/login'} replace={true} />} />
-                <Route path='login' element={<Login baseUrl={baseUrl} userId={handleUserIdChange} />} />
+                <Route path='login' element={<Login baseUrl={baseUrl} setUserId={setUserId} />} />
                 <Route path='register' element={<Register baseUrl={baseUrl} />} />
                 <Route path='signal' element={<Chat baseUrl={baseUrl} userId={userId} setUserId={setUserId} />} />
             </Routes>

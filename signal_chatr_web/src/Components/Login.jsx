@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Login({ baseUrl, userId }) {
+function Login({ baseUrl, setUserId }) {
 
     const [userData, setUserData] = useState({});
 
@@ -9,6 +9,11 @@ function Login({ baseUrl, userId }) {
         const name = event.target.name;
         const value = event.target.value;
         setUserData(values => ({ ...values, [name]: value }));
+    }
+
+    const handleSetUserId = (userId) => {
+        sessionStorage.setItem("userId", userId);
+        setUserId(userId);
     }
 
     const handleSubmit = async (event) => {
@@ -23,7 +28,7 @@ function Login({ baseUrl, userId }) {
 
         await fetch(`${baseUrl}Users/login`, requestOptions)
             .then(response => response.status === 200 ? response.json() : null)
-            .then(data => userId(data))
+            .then(data => handleSetUserId(data))
             .catch(err => console.error(err));
     }
 

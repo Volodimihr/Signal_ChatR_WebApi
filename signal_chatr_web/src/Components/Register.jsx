@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 
 function Register({ baseUrl }) {
 
@@ -44,14 +44,16 @@ function Register({ baseUrl }) {
         };
         const data = await fetch(`${baseUrl}Users/register`, requestOptions);
         //console.log(data);
+        console.log(data.status);
         if (data.status === 201) {
-            <Navigate to={'/login'} />
+            <Navigate to={'/login'} replace={true} />
         }
     }
 
     return (
         <div className="align-self-center mx-auto">
             <div className='rounded rounded-3 border border-2 shadow p-5' style={{ backgroundColor: 'whiteSmoke' }}>
+            <Link className='btn btn-outline-secondary' to={'/login'}>&#60; Back</Link>
                 <h1>Registration</h1>
                 <form onSubmit={handleSubmit} method='post' encType='multipart/form-data'>
                     <div className='form-group'>
