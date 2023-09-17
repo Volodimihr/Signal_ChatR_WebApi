@@ -9,7 +9,7 @@ import useSessionStorageState from 'use-session-storage-state';
 
 function App() {
 
-    document.body.style.backgroundImage = `url('wallpapper.jpg')`;
+    document.body.style.backgroundImage = `url('src/assets/wallpapper.jpg')`;
 
     const baseUrl = 'http://localhost:5000/api/';
 

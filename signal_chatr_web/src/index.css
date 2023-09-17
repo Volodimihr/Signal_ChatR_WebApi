@@ -25,13 +25,14 @@ body{
 }
 
 .rooms{
+  min-width: 300px;
   background: linear-gradient(whitesmoke 0%, white 20%, whitesmoke 100%);
   box-shadow: 5px 10px 10px gray;
   z-index: 2;
 }
 
-.msg{
-
+.add-group-img{
+  height: 2.5rem;
 }
 
 .msgsarea{
