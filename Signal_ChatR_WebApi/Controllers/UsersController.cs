@@ -46,6 +46,24 @@ namespace Signal_ChatR_WebApi.Controllers
             return await _context.Users.Include(u => u.Parties).ThenInclude(p => p.Room).ToListAsync();
         }
 
+        // GET: api/Users
+        [HttpGet("data")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersData()
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            List<User> users = await _context.Users.Include(u => u.Parties)
+                .ThenInclude(p => p.Room)
+                .ToListAsync();
+
+            users.ForEach(u => u.Password = "");
+
+            return users;
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

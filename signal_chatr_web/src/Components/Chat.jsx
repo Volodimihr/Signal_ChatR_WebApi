@@ -7,23 +7,30 @@ import Rooms from '../Components/Rooms';
 
 export default function Chat({ baseUrl, userId, setUserId }) {
 
+    const [roomId, setRoomId] = useState(0);
     const [rooms, setRooms] = useState([]);
     const [users, setUsers] = useState([]);
     const [msgs, setMsgs] = useState([]);
     const [msg, setMsg] = useState({});
 
-    const getRooms = useCallback(async () => {
-        await fetch(`${baseUrl}rooms/userId/${userId}`)
+    const getUsers = useCallback(async () => {
+        await fetch(`${baseUrl}users/data`)
             .then(response => response.status === 200 ? response.json() : null)
-            .then(data => setRooms(data))
+            .then(data => setUsers(data))
             .catch(err => console.error(err));
-    }, [userId]);
+    }, []);
+
+    const getMsgs = useCallback(async () => {
+        await fetch(`${baseUrl}messages/roomId/${roomId}`)
+            .then(response => response.status === 200 ? response.json() : null)
+            .then(data => setMsgs(data))
+            .catch(err => console.error(err));
+    }, [roomId]);
 
     useEffect(() => {
-        getRooms();
-        console.log(userId);
-        console.log(typeof(userId));
-    }, [getRooms]);
+        getUsers();
+        getMsgs();
+    }, [getUsers, getMsgs]);
 
     return (
         <div className='w-100 h-100 d-flex flex-column'>
@@ -32,7 +39,7 @@ export default function Chat({ baseUrl, userId, setUserId }) {
             }
             <Header baseUrl={baseUrl} setUserId={setUserId} userId={userId} />
             <div className="worker d-flex">
-                <Rooms rooms={rooms} />
+                <Rooms baseUrl={baseUrl} rooms={rooms} setRooms={setRooms} userId={userId} users={users} />
                 <div className="msg w-75 d-flex flex-column">
                     <Msgsarea />
                     <Sender />

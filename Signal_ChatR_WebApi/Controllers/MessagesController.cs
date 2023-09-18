@@ -44,6 +44,24 @@ namespace Signal_ChatR_WebApi.Controllers
             return message;
         }
 
+        // GET: api/Messages/5
+        [HttpGet("roomId/{id}")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessagesByRoomId(int id)
+        {
+            if (_context.Messages == null)
+            {
+                return NotFound();
+            }
+            var messages = await _context.Messages.Where(m => m.RoomId == id).ToListAsync();
+
+            if (messages == null)
+            {
+                return NotFound();
+            }
+
+            return messages;
+        }
+
         // PUT: api/Messages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

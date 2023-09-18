@@ -1,47 +1,64 @@
-html, body{
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
-body{
+body {
   width: 100vw;
   height: 100vh;
 }
 
-#root{
+#root {
   width: 100%;
   height: 100%;
 }
 
-.header{
+.header {
   height: 10%;
   background: linear-gradient(white, whitesmoke);
   box-shadow: 0px 5px 10px gray;
   z-index: 3;
 }
 
-.worker{
+.worker {
   height: 90%;
 }
 
-.rooms{
+.rooms {
   min-width: 300px;
   background: linear-gradient(whitesmoke 0%, white 20%, whitesmoke 100%);
   box-shadow: 5px 10px 10px gray;
   z-index: 2;
 }
 
-.add-group-img{
+.toast {
+  min-width: 300px;
+}
+
+.h-90 {
+  height: 90% !important;
+}
+
+.add-group-img {
   height: 2.5rem;
 }
 
-.msgsarea{
+.chat-img{
+  height: 2rem;
+}
+
+.msgsarea {
   height: 80%;
 }
 
-.sender{
+.sender {
   height: 20%;
   background: linear-gradient(white, whitesmoke);
   box-shadow: 0px -5px 10px gray;
   z-index: 1;
+}
+
+.contacts-list {
+  max-height: 300px;
 }

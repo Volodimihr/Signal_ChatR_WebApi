@@ -14,9 +14,6 @@ function App() {
     const baseUrl = 'http://localhost:5000/api/';
 
     const [userId, setUserId] = useSessionStorageState('userId', { defaultValue: null });
-    console.log(userId);
-    console.log(typeof(userId));
-    console.log(userId === null);
 
     return (
         <div className='w-100 h-100 d-flex'>

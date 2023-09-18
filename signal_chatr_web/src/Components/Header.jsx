@@ -12,7 +12,7 @@ export default function Header({ baseUrl, userId, setUserId }) {
   const getUser = useCallback(async () => {
     await fetch(`${baseUrl}Users/data/${userId}`)
       .then(response => response.status === 200 ? response.json() : null)
-      .then(data => { setUser(data); console.log(data); })
+      .then(data => { setUser(data) })
       .catch(err => console.error(err));
   }, [userId]);
 
@@ -23,7 +23,7 @@ export default function Header({ baseUrl, userId, setUserId }) {
   return (
     <div className='header d-flex align-items-center justify-content-between'>
       <div className='d-flex h-100'>
-        <img className='object-fit-contain rounded rounded-4 p-2' src={user.avatarPath} alt="avatar" />
+        <img className='object-fit-contain border rounded rounded-4 m-1' src={user.avatarPath} alt="avatar" />
         <div className="align-self-center">
           <h2 className=''>{user.name}</h2>
           <p>{user.email}</p>
