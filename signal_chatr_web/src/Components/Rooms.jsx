@@ -12,6 +12,7 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
     parties: [{ userId: userId }]
   });
 
+  // Get all rooms
   const getRooms = useCallback(async () => {
     await fetch(`${baseUrl}rooms`)
       .then(response => response.status === 200 ? response.json() : null)
