@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Toast from 'react-bootstrap/Toast';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
-  function Rooms({ baseUrl, userId, users }) {
+function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
 
   const [rooms, setRooms] = useState([]);
   const [show, setShow] = useState(false);
@@ -11,13 +13,14 @@ import Toast from 'react-bootstrap/Toast';
   });
 
   const getRooms = useCallback(async () => {
-    const res = await fetch(`${baseUrl}rooms/userId/${userId}`)
+    await fetch(`${baseUrl}rooms`)
       .then(response => response.status === 200 ? response.json() : null)
       .then(data => setRooms(data))
       .catch(err => console.error(err));
   }, [userId, show]);
 
   const handleToggle = () => setShow(!show);
+
   const handleAddRoom = async (event) => {
     event.preventDefault();
     const requestOptions = {
@@ -30,11 +33,26 @@ import Toast from 'react-bootstrap/Toast';
       .catch(err => console.error(err));
   };
 
-  // Test list
-  const list = [];
-  for (let index = 0; index < 21; index++) {
-    list.push(<div className="list-group-item" key={index}>Friend</div>);
+  const handleDeleteRoom = useCallback(async (roomId) => {
+    await fetch(`${baseUrl}parties/${roomId}/${userId}`, { method: 'DELETE' })
+      .then(response => response.status === 204 ? getRooms() : null)
+      .catch(err => console.error(err));
+  }, []);
+
+  const handleActiveChat = (id) => {
+
   }
+
+  const handleJoin = async (roomId) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({roomId: roomId, userId: userId})
+    };
+    await fetch(`${baseUrl}parties`, requestOptions)
+      .then(response => response.status === 201 ? handleToggle() : null)
+      .catch(err => console.error(err));
+  };
 
   useEffect(() => { getRooms() }, [getRooms]);
 
@@ -52,7 +70,7 @@ import Toast from 'react-bootstrap/Toast';
             <button type='submit' className='btn border flex-grow-1'>New Room</button>
           </form>
         </Toast.Header>
-        <Toast.Body className='bg-white'>
+        <Toast.Body className='bg-white rounded rounded-bottom'>
           <div>
             <form method="get" className='d-flex justify-content-between align-items-center'>
               <img className='chat-img' src="src/assets/chat.png" alt="chat-img" />
@@ -63,18 +81,56 @@ import Toast from 'react-bootstrap/Toast';
           </div>
           <hr />
           <div className='contacts-list overflow-auto'>
-            {list}
+            <div className="list-group">
+              <div className='list-group-item list-group-item-light'>Contacts</div>
+              {
+
+              }
+            </div>
+            <div className="list-group">
+              <div className='list-group-item list-group-item-light'>Rooms</div>
+              {
+                rooms && rooms.filter(r => r.parties.every(p => p.userId !== userId) && r.isPrivate === false).map((room) => {
+                  return <div className='l-item list-group-item list-group-item-action d-flex justify-content-between' key={room.id}>
+                    <img className='h-100' src="src/assets/add_group.png" alt="group" />
+                    <div className='fs-4'>{room.name}</div>
+                    <button type='button' onClick={() => handleJoin(room.id)} className='form-control btn d-flex w-auto'>
+                      <img className='h-100 aling-self-center' src="src/assets/add.png" alt="add" />
+                    </button>
+                  </div>;
+                })
+              }
+            </div>
           </div>
         </Toast.Body>
       </Toast>
       <div className="list-group overflow-auto h-90">
         {
-          rooms && rooms.map((room) => {
-            return <div className='list-group-item' key={room.id}>{room.name}</div>
+          rooms && rooms.filter(r => r.parties.some(p => p.userId === userId)).map((room) => {
+            return <div className={`l-item list-group-item list-group-item-light d-flex ${roomId === room.id && 'active-item'}`} key={room.id}
+              onClick={() => setRoomId(room.id)} >
+              <img className='h-100' src="src/assets/add_group.png" alt="group" />
+              <div className='fs-4 mx-auto'>{room.name}</div>
+              <OverlayTrigger
+                trigger="click"
+                placement="right"
+                key="right"
+                overlay={
+                  <Popover>
+                    <Popover.Body>
+                      <button type="button" className='btn btn-danger' onClick={() => handleDeleteRoom(room.id)}>Delete</button>
+                    </Popover.Body>
+                  </Popover>
+                }>
+                <button type='button' className='form-control btn d-flex w-auto'>
+                  <img className='h-100 aling-self-center' src="src/assets/delete.png" alt="add" />
+                </button>
+              </OverlayTrigger>
+            </div>;
           })
         }
       </div>
-    </div>
+    </div >
   )
 }
 

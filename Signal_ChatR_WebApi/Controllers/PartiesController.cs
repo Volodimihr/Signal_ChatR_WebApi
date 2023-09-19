@@ -84,11 +84,18 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Parties'  is null.");
             }
-            _context.Parties.Add(parties);
-            await _context.SaveChangesAsync();
+
+            bool exist = await _context.Parties
+                .AnyAsync(p => p.RoomId == parties.RoomId && p.UserId == parties.UserId);
+            if (!exist)
+            {
+                _context.Parties.Add(parties);
+                await _context.SaveChangesAsync();
+            }
 
             return CreatedAtAction("GetParties", new { id = parties.Id }, parties);
         }
+
 
         // DELETE: api/Parties/5
         [HttpDelete("{id}")]
@@ -105,6 +112,36 @@ namespace Signal_ChatR_WebApi.Controllers
             }
 
             _context.Parties.Remove(parties);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/Parties/5/6
+        [HttpDelete("{roomId}/{userId}")]
+        public async Task<IActionResult> DeleteParty(int roomId, int userId)
+        {
+            if (_context.Parties == null)
+            {
+                return NotFound();
+            }
+            var parties = await _context.Parties.FirstAsync(p => p.RoomId == roomId && p.UserId == userId);
+            if (parties == null)
+            {
+                return NotFound();
+            }
+
+            _context.Parties.Remove(parties);
+
+            var room = await _context.Rooms.Include(r => r.Parties).FirstAsync(r => r.Id == roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            if ((room.Parties.Count == 0 && room.IsPrivate == false) || room.IsPrivate == true)
+                _context.Rooms.Remove(room);
+
             await _context.SaveChangesAsync();
 
             return NoContent();

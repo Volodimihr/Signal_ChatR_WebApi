@@ -23,7 +23,7 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return NotFound();
             }
-            return await _context.Rooms.ToListAsync();
+            return await _context.Rooms.Include(r => r.Parties).ToListAsync();
         }
 
         // GET: api/Rooms/5

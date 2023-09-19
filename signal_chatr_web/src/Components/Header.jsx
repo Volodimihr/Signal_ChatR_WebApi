@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
 
-export default function Header({ baseUrl, userId, setUserId }) {
+export default function Header({ baseUrl, userId, setUserId, roomId }) {
 
   const [user, setUser] = useState({});
+  const [room, setRoom] = useState({});
 
   const handleLogout = () => {
     sessionStorage.setItem('userId', null);
@@ -16,9 +17,17 @@ export default function Header({ baseUrl, userId, setUserId }) {
       .catch(err => console.error(err));
   }, [userId]);
 
+  const getRoomById = useCallback( async () => { roomId &&
+    await fetch(`${baseUrl}rooms/${roomId}`)
+      .then(response => response.status === 200 ? response.json() : null)
+      .then(data => setRoom(data))
+      .catch(err => console.error(err));
+  }, [roomId]);
+
   useEffect(() => {
     getUser();
-  }, [getUser]);
+    getRoomById();
+  }, [getUser, getRoomById]);
 
   return (
     <div className='header d-flex align-items-center justify-content-between'>
@@ -30,7 +39,7 @@ export default function Header({ baseUrl, userId, setUserId }) {
         </div>
       </div>
       <div>
-        <h1>Room name</h1>
+        <div className='fs-1'>{room.name}</div>
       </div>
       <button className='btn btn-info'
         type="button" onClick={handleLogout}>Logout</button>

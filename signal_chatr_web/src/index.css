@@ -48,6 +48,15 @@ body {
   height: 2rem;
 }
 
+.l-item{
+  height: 3rem;
+}
+
+.active-item{
+  color: white!important;
+  background-color: burlywood!important;
+}
+
 .msgsarea {
   height: 80%;
 }
@@ -61,4 +70,5 @@ body {
 
 .contacts-list {
   max-height: 300px;
+
 }

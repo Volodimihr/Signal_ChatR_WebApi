@@ -8,7 +8,6 @@ import Rooms from '../Components/Rooms';
 export default function Chat({ baseUrl, userId, setUserId }) {
 
     const [roomId, setRoomId] = useState(0);
-    const [rooms, setRooms] = useState([]);
     const [users, setUsers] = useState([]);
     const [msgs, setMsgs] = useState([]);
     const [msg, setMsg] = useState({});
@@ -37,9 +36,9 @@ export default function Chat({ baseUrl, userId, setUserId }) {
             {
                 userId === null && (<Navigate to={'/login'} replace={true} />)
             }
-            <Header baseUrl={baseUrl} setUserId={setUserId} userId={userId} />
+            <Header baseUrl={baseUrl} setUserId={setUserId} userId={userId} roomId={roomId} />
             <div className="worker d-flex">
-                <Rooms baseUrl={baseUrl} rooms={rooms} setRooms={setRooms} userId={userId} users={users} />
+                <Rooms baseUrl={baseUrl} roomId={roomId} setRoomId={setRoomId} userId={userId} users={users} />
                 <div className="msg w-75 d-flex flex-column">
                     <Msgsarea />
                     <Sender />
