@@ -10,7 +10,6 @@ export default function Chat({ baseUrl, userId, setUserId }) {
     const [roomId, setRoomId] = useState(0);
     const [users, setUsers] = useState([]);
     const [msgs, setMsgs] = useState([]);
-    const [msg, setMsg] = useState({});
 
     const getUsers = useCallback(async () => {
         await fetch(`${baseUrl}users/data`)
@@ -40,8 +39,8 @@ export default function Chat({ baseUrl, userId, setUserId }) {
             <div className="worker d-flex">
                 <Rooms baseUrl={baseUrl} roomId={roomId} setRoomId={setRoomId} userId={userId} users={users} />
                 <div className="msg w-75 d-flex flex-column">
-                    <Msgsarea />
-                    <Sender />
+                    <Msgsarea msgs={msgs} userId={userId} />
+                    <Sender userId={userId} roomId={roomId} />
                 </div>
             </div>
         </div>

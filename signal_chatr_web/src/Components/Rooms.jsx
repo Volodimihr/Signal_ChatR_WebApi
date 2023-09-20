@@ -40,15 +40,11 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
       .catch(err => console.error(err));
   }, []);
 
-  const handleActiveChat = (id) => {
-
-  }
-
   const handleJoin = async (roomId) => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({roomId: roomId, userId: userId})
+      body: JSON.stringify({ roomId: roomId, userId: userId })
     };
     await fetch(`${baseUrl}parties`, requestOptions)
       .then(response => response.status === 201 ? handleToggle() : null)
@@ -63,7 +59,7 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
         <div className='my-auto fs-5'>Start chating &#62;</div>
         <button type='button' className='btn fs-3' onClick={handleToggle}>+</button>
       </div>
-      <Toast className='toast w-25 position-fixed top-5 start-0' style={{ zIndex: 1 }} show={show} onClose={handleToggle}>
+      <Toast id='toast' className='toast w-25 position-fixed top-5 start-0' style={{ zIndex: 1 }} show={show} onClose={handleToggle}>
         <Toast.Header closeButton={false}>
           <form method='post' onSubmit={handleAddRoom} className='d-flex align-items-center'>
             <img className='add-group-img' src="src/assets/add_group.png" alt="add-group" />
