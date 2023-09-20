@@ -5,9 +5,8 @@ import Msgsarea from '../Components/Msgsarea';
 import Sender from '../Components/Sender';
 import Rooms from '../Components/Rooms';
 
-export default function Chat({ baseUrl, userId, setUserId }) {
+export default function Chat({ baseUrl, userId, setUserId, roomId, setRoomId }) {
 
-    const [roomId, setRoomId] = useState(0);
     const [users, setUsers] = useState([]);
     const [msgs, setMsgs] = useState([]);
 
@@ -28,7 +27,7 @@ export default function Chat({ baseUrl, userId, setUserId }) {
     useEffect(() => {
         getUsers();
         getMsgs();
-    }, [getUsers, getMsgs]);
+    }, [getUsers, getMsgs, roomId]);
 
     return (
         <div className='w-100 h-100 d-flex flex-column'>
@@ -40,7 +39,7 @@ export default function Chat({ baseUrl, userId, setUserId }) {
                 <Rooms baseUrl={baseUrl} roomId={roomId} setRoomId={setRoomId} userId={userId} users={users} />
                 <div className="msg w-75 d-flex flex-column">
                     <Msgsarea msgs={msgs} userId={userId} />
-                    <Sender userId={userId} roomId={roomId} />
+                    <Sender baseUrl={baseUrl} userId={userId} roomId={roomId} />
                 </div>
             </div>
         </div>

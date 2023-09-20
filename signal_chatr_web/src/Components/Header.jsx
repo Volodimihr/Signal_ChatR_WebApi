@@ -41,7 +41,7 @@ export default function Header({ baseUrl, userId, setUserId, roomId }) {
       <div>
         <div title='Current Room' className='fs-1'>{room.name}</div>
       </div>
-      <button className='btn btn-info'
+      <button className='btn btn-warning border border-3 me-3'
         type="button" onClick={handleLogout}>Logout</button>
     </div>
   )

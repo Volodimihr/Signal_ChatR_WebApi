@@ -14,6 +14,9 @@ function App() {
     const baseUrl = 'http://localhost:5000/api/';
 
     const [userId, setUserId] = useSessionStorageState('userId', { defaultValue: null });
+    const [roomId, setRoomId] = useState(0);
+
+    useEffect(() => {}, [userId, roomId]);
 
     return (
         <div className='w-100 h-100 d-flex'>
@@ -24,7 +27,11 @@ function App() {
                 <Route path='/' element={<Navigate to={'/login'} replace={true} />} />
                 <Route path='login' element={<Login baseUrl={baseUrl} setUserId={setUserId} />} />
                 <Route path='register' element={<Register baseUrl={baseUrl} />} />
-                <Route path='signal' element={<Chat baseUrl={baseUrl} userId={userId} setUserId={setUserId} />} />
+                <Route path='signal'
+                    element={<Chat
+                        baseUrl={baseUrl}
+                        userId={userId} setUserId={setUserId}
+                        roomId={roomId} setRoomId={setRoomId} />} />
             </Routes>
         </div>
     );
