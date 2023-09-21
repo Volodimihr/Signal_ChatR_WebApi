@@ -5,10 +5,19 @@ import Msgsarea from '../Components/Msgsarea';
 import Sender from '../Components/Sender';
 import Rooms from '../Components/Rooms';
 
-export default function Chat({ baseUrl, userId, setUserId, roomId, setRoomId }) {
+export default function Chat({ baseUrl, conn, userId, setUserId, roomId, setRoomId }) {
 
     const [users, setUsers] = useState([]);
     const [msgs, setMsgs] = useState([]);
+
+    conn.on('notify', (msg) => {
+        if (msg === 'users') {
+            getUsers();
+        }
+        else if (msg === 'messages') {
+            getMsgs();
+        }
+    });
 
     const getUsers = useCallback(async () => {
         await fetch(`${baseUrl}users/data`)
@@ -39,7 +48,7 @@ export default function Chat({ baseUrl, userId, setUserId, roomId, setRoomId }) 
                 <Rooms baseUrl={baseUrl} roomId={roomId} setRoomId={setRoomId} userId={userId} users={users} />
                 <div className="msg w-75 d-flex flex-column">
                     <Msgsarea msgs={msgs} userId={userId} />
-                    <Sender baseUrl={baseUrl} userId={userId} roomId={roomId} />
+                    <Sender baseUrl={baseUrl} userId={userId} roomId={roomId} conn={conn} />
                 </div>
             </div>
         </div>

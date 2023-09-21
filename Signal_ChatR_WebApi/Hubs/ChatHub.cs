@@ -6,7 +6,7 @@ namespace Signal_ChatR_WebApi.Hubs
     {
         public async Task Notify(string msg)
         {
-            await Clients.All.SendAsync(msg);
+            await Clients.All.SendAsync("notify", msg);
         }
     }
 }

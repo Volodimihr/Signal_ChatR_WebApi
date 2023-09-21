@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCallback } from 'react';
 
-export default function Sender({ baseUrl, userId, roomId }) {
+export default function Sender({ baseUrl, userId, roomId, conn }) {
 
   const hiddenFileInput = useRef(null);
 
@@ -52,7 +52,9 @@ export default function Sender({ baseUrl, userId, roomId }) {
         .catch(err => console.error(err));
     }
     setMsg({ ...msg, msgText: '' });
-    console.log(msg);
+
+    conn.invoke('notify', 'messages')
+    .catch((err) => console.error(err))
   };
 
   useEffect(() => {
