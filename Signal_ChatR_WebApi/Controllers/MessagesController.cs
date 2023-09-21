@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Signal_ChatR_WebApi.Models;
 
 namespace Signal_ChatR_WebApi.Controllers
@@ -102,6 +103,15 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Messages'  is null.");
             }
+
+            if (!message.MsgFilePath.IsNullOrEmpty())
+            {
+                byte[] fileBytes = Convert.FromBase64String(message.MsgFilePath.Split(',').Last());
+                string filePath = $"Storage/sig_{DateTime.UtcNow}.{message.MsgFileMime.Split('/').Last()}";
+                System.IO.File.WriteAllBytes(filePath, fileBytes);
+                message.MsgFilePath = filePath;
+            }
+
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 

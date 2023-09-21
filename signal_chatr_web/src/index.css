@@ -40,6 +40,10 @@ body {
   height: 90% !important;
 }
 
+.h-33 {
+  height: 33% !important;
+}
+
 .add-group-img {
   height: 2.5rem;
 }
@@ -71,4 +75,14 @@ body {
 .contacts-list {
   max-height: 300px;
 
+}
+
+.bg-bw{
+  background-color: burlywood;
+  opacity: 0.8;
+}
+
+.bg-pr{
+  background-color: peru;
+  opacity: 0.8;
 }
