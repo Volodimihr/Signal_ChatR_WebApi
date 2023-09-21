@@ -22,10 +22,12 @@ namespace Signal_ChatR_WebApi
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder
+                    .WithOrigins("http://localhost:5173")
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
-                    //.AllowCredentials();
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                    //.SetIsOriginAllowed(orign => true);
                 });
             });
 

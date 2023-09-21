@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Signal_ChatR_WebApi.Models;
 
 namespace Signal_ChatR_WebApi.Controllers
@@ -44,6 +45,24 @@ namespace Signal_ChatR_WebApi.Controllers
             return message;
         }
 
+        // GET: api/Messages/5
+        [HttpGet("roomId/{id}")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessagesByRoomId(int id)
+        {
+            if (_context.Messages == null)
+            {
+                return NotFound();
+            }
+            var messages = await _context.Messages.Where(m => m.RoomId == id).ToListAsync();
+
+            if (messages == null)
+            {
+                return NotFound();
+            }
+
+            return messages;
+        }
+
         // PUT: api/Messages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -84,6 +103,15 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Messages'  is null.");
             }
+
+            if (!message.MsgFilePath.IsNullOrEmpty())
+            {
+                byte[] fileBytes = Convert.FromBase64String(message.MsgFilePath.Split(',').Last());
+                string filePath = $"Storage/sig_{DateTime.UtcNow}.{message.MsgFileMime.Split('/').Last()}";
+                System.IO.File.WriteAllBytes(filePath, fileBytes);
+                message.MsgFilePath = filePath;
+            }
+
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 

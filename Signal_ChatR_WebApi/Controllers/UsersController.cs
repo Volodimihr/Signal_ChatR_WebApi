@@ -16,14 +16,14 @@ namespace Signal_ChatR_WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(string email, string password)
+        public async Task<ActionResult<User>> Login(LoginDTO userData)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
 
-            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userData.Email && u.Password == userData.Password);
 
             if (user == null)
             {
@@ -32,7 +32,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
             HttpContext.Session.SetInt32("UserId", user.Id);
 
-            return Ok();
+            return Ok(user.Id);
         }
 
         // GET: api/Users
@@ -44,6 +44,24 @@ namespace Signal_ChatR_WebApi.Controllers
                 return NotFound();
             }
             return await _context.Users.Include(u => u.Parties).ThenInclude(p => p.Room).ToListAsync();
+        }
+
+        // GET: api/Users
+        [HttpGet("data")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersData()
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            List<User> users = await _context.Users.Include(u => u.Parties)
+                .ThenInclude(p => p.Room)
+                .ToListAsync();
+
+            users.ForEach(u => u.Password = "");
+
+            return users;
         }
 
         // GET: api/Users/5
@@ -60,6 +78,36 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return NotFound();
             }
+
+            if (user.AvatarPath != null)
+            {
+                user.AvatarPath = "data:image/png;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(user.AvatarPath));
+            }
+
+            return user;
+        }
+        
+        // GET: api/Users/data/5
+        [HttpGet("data/{id}")]
+        public async Task<ActionResult<User>> GetAvatarById(int id)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.AvatarPath != null)
+            {
+                user.AvatarPath = "data:image/png;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(user.AvatarPath));
+            }
+
+            user.Password = "";
 
             return user;
         }
@@ -104,6 +152,15 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Users'  is null.");
             }
+
+            if (user.AvatarPath != null)
+            {
+                byte[] imageBytes = Convert.FromBase64String(user.AvatarPath.Split(',').Last());
+                string avatarPath = $"Avatars/{user.Email}.png";
+                System.IO.File.WriteAllBytes(avatarPath, imageBytes);
+                user.AvatarPath = avatarPath;
+            }
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

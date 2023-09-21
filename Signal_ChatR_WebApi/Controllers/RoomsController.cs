@@ -23,7 +23,7 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return NotFound();
             }
-            return await _context.Rooms.ToListAsync();
+            return await _context.Rooms.Include(r => r.Parties).ToListAsync();
         }
 
         // GET: api/Rooms/5
@@ -42,6 +42,27 @@ namespace Signal_ChatR_WebApi.Controllers
             }
 
             return room;
+        }
+
+        // GET: api/Rooms/5
+        [HttpGet("userId/{id}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByUserId(int id)
+        {
+            if (_context.Rooms == null)
+            {
+                return NotFound();
+            }
+            var rooms = await _context.Rooms
+                .Include(r => r.Parties)
+                .Where(r => r.Parties.All(p => p.UserId == id))
+                .ToListAsync();
+
+            if (rooms == null)
+            {
+                return new List<Room>();
+            }
+
+            return rooms;
         }
 
         // PUT: api/Rooms/5
