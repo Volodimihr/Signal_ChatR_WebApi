@@ -44,6 +44,21 @@ body {
   height: 33% !important;
 }
 
+.ind{
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.msg-img{
+  max-height: 20rem;
+  border-radius: 5px;
+}
+
+.msg-avatar{
+  max-height: 3rem;
+  border-radius: 5px;
+}
+
 .add-group-img {
   height: 2.5rem;
 }

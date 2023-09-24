@@ -60,6 +60,14 @@ namespace Signal_ChatR_WebApi.Controllers
                 return NotFound();
             }
 
+            foreach (Message message in messages)
+            {
+                if (!message.MsgFilePath.IsNullOrEmpty())
+                {
+                    message.MsgFilePath = Convert.ToBase64String(System.IO.File.ReadAllBytes(message.MsgFilePath));
+                }
+            }
+
             return messages;
         }
 
@@ -107,10 +115,13 @@ namespace Signal_ChatR_WebApi.Controllers
             if (!message.MsgFilePath.IsNullOrEmpty())
             {
                 byte[] fileBytes = Convert.FromBase64String(message.MsgFilePath.Split(',').Last());
-                string filePath = $"Storage/sig_{DateTime.UtcNow}.{message.MsgFileMime.Split('/').Last()}";
+                string ext = Path.GetExtension(message.MsgFilePath.Split(',').First());
+                string filePath = Path.Combine("Storage", $"sig_{DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")}{ext}");
                 System.IO.File.WriteAllBytes(filePath, fileBytes);
                 message.MsgFilePath = filePath;
             }
+
+            message.SentAt = DateTime.UtcNow;
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();

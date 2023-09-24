@@ -23,10 +23,9 @@ function App() {
     async function start() {
         try {
             await conn.start();
-            console.log("SignalR Connected.");
         } catch (err) {
             console.log(err);
-            setTimeout(start, 5000);
+            setTimeout(start, 30000);
         }
     };
     
@@ -40,8 +39,6 @@ function App() {
     const [userId, setUserId] = useSessionStorageState('userId', { defaultValue: null });
     const [roomId, setRoomId] = useState(0);
 
-    useEffect(() => {}, [userId, roomId]);
-
     return (
         <div className='w-100 h-100 d-flex'>
             {
@@ -49,7 +46,7 @@ function App() {
             }
             <Routes>
                 <Route path='/' element={<Navigate to={'/login'} replace={true} />} />
-                <Route path='login' element={<Login baseUrl={baseUrl} setUserId={setUserId} />} />
+                <Route path='login' element={<Login conn={conn} baseUrl={baseUrl} setUserId={setUserId} />} />
                 <Route path='register' element={<Register baseUrl={baseUrl} />} />
                 <Route path='signal'
                     element={<Chat

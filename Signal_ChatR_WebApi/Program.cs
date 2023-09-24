@@ -18,16 +18,17 @@ namespace Signal_ChatR_WebApi
                 options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
                 );
             builder.Services.AddSignalR();
+
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
                 {
                     builder
-                    .WithOrigins("http://localhost:5173")
+                    //.WithOrigins("http://localhost:5173")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials();
-                    //.SetIsOriginAllowed(orign => true);
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(orign => true);
                 });
             });
 
@@ -52,6 +53,8 @@ namespace Signal_ChatR_WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

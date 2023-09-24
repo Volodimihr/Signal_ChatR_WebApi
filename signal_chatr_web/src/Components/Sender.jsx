@@ -33,7 +33,7 @@ export default function Sender({ baseUrl, userId, roomId, conn }) {
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        setMsg({ ...msg, msgFilePath: reader.result, msgFileMime: file.type })
+        setMsg({ ...msg, msgFilePath: file.name+','+reader.result, msgFileMime: file.type })
       };
       reader.onerror = (err) => { console.log(err); };
     }
@@ -51,10 +51,15 @@ export default function Sender({ baseUrl, userId, roomId, conn }) {
         .then(response => response.status === 201 ? null : null)
         .catch(err => console.error(err));
     }
-    setMsg({ ...msg, msgText: '' });
 
-    conn.invoke('notify', 'messages')
+    conn.invoke('Broadcast', 'messages')
     .catch((err) => console.error(err))
+
+    setMsg({ ...msg, roomId: roomId,
+      userId: userId,
+      msgText: '',
+      msgFilePath: null,
+      msgFileMime: null});
   };
 
   useEffect(() => {

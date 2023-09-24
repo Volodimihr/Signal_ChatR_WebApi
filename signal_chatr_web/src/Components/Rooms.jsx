@@ -3,7 +3,7 @@ import Toast from 'react-bootstrap/Toast';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
-function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
+function Rooms({ baseUrl, roomId, setRoomId, userId, users, activeUsers, conn }) {
 
   const [rooms, setRooms] = useState([]);
   const [show, setShow] = useState(false);
@@ -18,6 +18,7 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
       .then(response => response.status === 200 ? response.json() : null)
       .then(data => setRooms(data))
       .catch(err => console.error(err));
+    conn.invoke('WhoPresent', userId);
   }, [userId, show]);
 
   const handleToggle = () => setShow(!show);
@@ -40,6 +41,17 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
       .catch(err => console.error(err));
   }, []);
 
+  const handleJoinToPrivate = async (userId) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roomId: roomId, userId: userId })
+    };
+    await fetch(`${baseUrl}parties`, requestOptions)
+      .then(response => response.status === 201 ? handleToggle() : null)
+      .catch(err => console.error(err));
+  };
+
   const handleJoin = async (roomId) => {
     const requestOptions = {
       method: 'POST',
@@ -51,7 +63,13 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
       .catch(err => console.error(err));
   };
 
-  useEffect(() => { getRooms() }, [getRooms]);
+  const getRoomUser = (room) => {
+    const user = users.find(u => u.parties.some(p => p.roomId === room.id && p.userId !== userId));
+    //console.log(user);
+    return user;
+  }
+
+  useEffect(() => { getRooms() }, [getRooms, roomId]);
 
   return (
     <div className='rooms w-25 h-100 bg-white'>
@@ -81,7 +99,19 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
             <div className="list-group">
               <div className='list-group-item list-group-item-light'>Contacts</div>
               {
-
+                users && users.filter(u => u.id !== userId
+                  && rooms.some(r => r.isPrivate === true
+                    && r.parties.every(p => p.userId !== u.id)
+                  )
+                ).map((user) => {
+                  return <div className='l-item list-group-item list-group-item-action d-flex justify-content-between' key={user.id}>
+                    <img className='h-100 rounded rounded-circle' src="src/assets/chat.png" alt="group" />
+                    <div className='fs-4'>{user.name}</div>
+                    <button type='button' onClick={() => handleJoinToPrivate(user.id)} className='form-control btn d-flex w-auto'>
+                      <img className='h-100 aling-self-center' src="src/assets/add.png" alt="add" />
+                    </button>
+                  </div>;
+                })
               }
             </div>
             <div className="list-group">
@@ -106,8 +136,22 @@ function Rooms({ baseUrl, roomId, setRoomId, userId, users }) {
           rooms && rooms.filter(r => r.parties.some(p => p.userId === userId)).map((room) => {
             return <div className={`l-item list-group-item list-group-item-light d-flex ${roomId === room.id && 'active-item'}`} key={room.id}
               onClick={() => setRoomId(room.id)} >
-              <img className='h-100' src="src/assets/add_group.png" alt="group" />
-              <div className='fs-4 mx-auto'>{room.name}</div>
+              <img className='h-100 rounded rounded-circle' src={
+                room.isPrivate
+                  ? getRoomUser(room).avatarPath
+                  : "src/assets/add_group.png"
+              } alt="group" />
+              <div className={`ind rounded rounded-circle ${room.isPrivate
+                ? activeUsers.includes(getRoomUser(room).id)
+                  ? 'bg-success' : 'bg-danger'
+                : ""
+                }`}>
+              </div>
+              <div className='fs-4 mx-auto'>{
+                room.isPrivate
+                  ? () => users.find(u => u.parties.some(p => p.roomId === room.id && p.userId !== userId)).name
+                  : room.name
+              }</div>
               <OverlayTrigger
                 trigger="click"
                 placement="right"

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Signal_ChatR_WebApi.Hubs;
 using Signal_ChatR_WebApi.Models;
 
 namespace Signal_ChatR_WebApi.Controllers
@@ -9,10 +12,12 @@ namespace Signal_ChatR_WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly Signal_ChatR_WebApiContext _context;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public UsersController(Signal_ChatR_WebApiContext context)
+        public UsersController(Signal_ChatR_WebApiContext context, IHubContext<ChatHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost("login")]
@@ -31,6 +36,7 @@ namespace Signal_ChatR_WebApi.Controllers
             }
 
             HttpContext.Session.SetInt32("UserId", user.Id);
+            await _hubContext.Clients.All.SendAsync("connUserId", user.Id);
 
             return Ok(user.Id);
         }
@@ -43,7 +49,7 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 return NotFound();
             }
-            return await _context.Users.Include(u => u.Parties).ThenInclude(p => p.Room).ToListAsync();
+            return await _context.Users.Include(u => u.Parties).ToListAsync();
         }
 
         // GET: api/Users
@@ -55,11 +61,16 @@ namespace Signal_ChatR_WebApi.Controllers
                 return NotFound();
             }
 
-            List<User> users = await _context.Users.Include(u => u.Parties)
-                .ThenInclude(p => p.Room)
-                .ToListAsync();
+            List<User> users = await _context.Users.Include(u => u.Parties).ToListAsync();
 
-            users.ForEach(u => u.Password = "");
+            users.ForEach(u =>
+            {
+                u.Password = "";
+                if (!u.AvatarPath.IsNullOrEmpty())
+                {
+                    u.AvatarPath = "data:image/png;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(u.AvatarPath));
+                }
+            });
 
             return users;
         }
@@ -79,7 +90,7 @@ namespace Signal_ChatR_WebApi.Controllers
                 return NotFound();
             }
 
-            if (user.AvatarPath != null)
+            if (!user.AvatarPath.IsNullOrEmpty())
             {
                 user.AvatarPath = "data:image/png;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(user.AvatarPath));
             }

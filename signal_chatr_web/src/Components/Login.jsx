@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Login({ baseUrl, setUserId }) {
+function Login({ conn, baseUrl, setUserId }) {
 
     const [userData, setUserData] = useState({});
 
@@ -14,6 +14,7 @@ function Login({ baseUrl, setUserId }) {
     const handleSetUserId = (userId) => {
         sessionStorage.setItem("userId", userId);
         setUserId(userId);
+        conn.invoke('WhoPresent', userId);
     }
 
     const handleSubmit = async (event) => {

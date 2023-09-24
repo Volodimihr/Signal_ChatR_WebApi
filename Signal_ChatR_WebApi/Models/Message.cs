@@ -16,7 +16,7 @@ namespace Signal_ChatR_WebApi.Models
         public int UserId { get; set; }
         public User? User { get; set; }
         [Required]
-        public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public DateTime SentAt { get; set; }
         public string? MsgText { get; set; }
         public string? MsgFilePath { get; set; }
         public string? MsgFileMime { get; set; }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 
-export default function Header({ baseUrl, userId, setUserId, roomId }) {
+export default function Header({ baseUrl, conn, userId, setUserId, roomId }) {
 
   const [user, setUser] = useState({});
   const [room, setRoom] = useState({});
@@ -8,6 +8,7 @@ export default function Header({ baseUrl, userId, setUserId, roomId }) {
   const handleLogout = () => {
     sessionStorage.setItem('userId', null);
     setUserId(null);
+    conn.invoke('Logout', userId);
   };
 
   const getUser = useCallback(async () => {
