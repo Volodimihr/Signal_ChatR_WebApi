@@ -118,6 +118,7 @@ namespace Signal_ChatR_WebApi.Controllers
         }
 
         // DELETE: api/Parties/5/6
+        // Delete user from room or delete room if no users in room
         [HttpDelete("{roomId}/{userId}")]
         public async Task<IActionResult> DeleteParty(int roomId, int userId)
         {

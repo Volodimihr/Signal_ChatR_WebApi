@@ -45,6 +45,7 @@ namespace Signal_ChatR_WebApi.Controllers
         }
 
         // GET: api/Rooms/5
+        // Returns rooms where user invited
         [HttpGet("userId/{id}")]
         public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByUserId(int id)
         {

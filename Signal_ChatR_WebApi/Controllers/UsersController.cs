@@ -20,6 +20,7 @@ namespace Signal_ChatR_WebApi.Controllers
             _hubContext = hubContext;
         }
 
+        // Login by LoginDTO
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(LoginDTO userData)
         {
@@ -36,6 +37,8 @@ namespace Signal_ChatR_WebApi.Controllers
             }
 
             HttpContext.Session.SetInt32("UserId", user.Id);
+
+            // Notify users that current user is active 
             await _hubContext.Clients.All.SendAsync("connUserId", user.Id);
 
             return Ok(user.Id);
@@ -53,6 +56,7 @@ namespace Signal_ChatR_WebApi.Controllers
         }
 
         // GET: api/Users
+        // Get users with avatars and without passwords
         [HttpGet("data")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersData()
         {
@@ -156,6 +160,8 @@ namespace Signal_ChatR_WebApi.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // Registration with avatar
+
         [HttpPost("register")]
         public async Task<ActionResult<User>> PostUser(User user)
         {

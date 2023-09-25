@@ -14,9 +14,12 @@ namespace Signal_ChatR_WebApi
 
             // Add services to the container.
 
+            // Add option to avoid cycles in json many-to-many query
             builder.Services.AddControllers().AddJsonOptions(
                 options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
                 );
+
+            // Add SignalR service
             builder.Services.AddSignalR();
 
             builder.Services.AddCors(options =>
@@ -64,6 +67,7 @@ namespace Signal_ChatR_WebApi
 
             app.UseSession();
 
+            // set base url for hub connection
             app.MapHub<ChatHub>("/notify");
 
             app.Run();

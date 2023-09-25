@@ -46,6 +46,7 @@ namespace Signal_ChatR_WebApi.Controllers
         }
 
         // GET: api/Messages/5
+        // Get messages for active room
         [HttpGet("roomId/{id}")]
         public async Task<ActionResult<IEnumerable<Message>>> GetMessagesByRoomId(int id)
         {
@@ -112,6 +113,7 @@ namespace Signal_ChatR_WebApi.Controllers
                 return Problem("Entity set 'Signal_ChatR_WebApiContext.Messages'  is null.");
             }
 
+            // store file data if file was atached to message
             if (!message.MsgFilePath.IsNullOrEmpty())
             {
                 byte[] fileBytes = Convert.FromBase64String(message.MsgFilePath.Split(',').Last());
