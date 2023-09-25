@@ -6,14 +6,28 @@ export default function Message({ msg, userId, users }) {
     <div></div>
   );
 
-  const handleDownloadFile = () => {}
+  let b64;
+  let ext;
+
+  if (msg.msgFilePath !== null) {
+    b64 = `data:${msg.msgFileMime};base64,${msg.msgFilePath.split('.')[0]}`;
+    ext = msg.msgFilePath.split('.')[1];
+  }
+
+  const handleDownloadFile = () => {
+    const downloadLink = document.createElement('a');
+    const fileName = msg.sentAt + '.' + ext;
+    downloadLink.href = b64;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
 
   if (msg.msgFilePath !== null) {
     if (msg.msgFileMime.includes('image')) {
       msgFile = (
         <div className='d-flex flex-column '>
-          <img className='msg-img' src={`data:${msg.msgFileMime};base64,${msg.msgFilePath}`} alt="paint" />
-          <button type="button" onClick={() => handleDownloadFile} className='btn btn-light ms-auto'>Download</button>
+          <img className='msg-img' src={b64} alt="paint" />
+          <button type="button" onClick={handleDownloadFile} className='btn btn-light ms-auto'>Download</button>
         </div>
       );
     }
