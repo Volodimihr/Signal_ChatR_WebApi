@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 
-function Register({ baseUrl }) {
+function Register({ baseUrl, conn }) {
 
     const [userToReg, setUserToReg] = useState({ id: 0, name: null, email: null, password: null, avatarPath: null, parties: null });
 
@@ -44,8 +44,10 @@ function Register({ baseUrl }) {
         };
         const data = await fetch(`${baseUrl}Users/register`, requestOptions);
         //console.log(data);
-        console.log(data.status);
+        //console.log(data.status);
         if (data.status === 201) {
+            conn.invoke('Broadcast', 'users')
+                .catch((err) => console.log(err));
             <Navigate to={'/login'} replace={true} />
         }
     }
@@ -53,7 +55,7 @@ function Register({ baseUrl }) {
     return (
         <div className="align-self-center mx-auto">
             <div className='rounded rounded-3 border border-2 shadow p-5' style={{ backgroundColor: 'whiteSmoke' }}>
-            <Link className='btn btn-outline-secondary' to={'/login'}>&#60; Back</Link>
+                <Link className='btn btn-outline-secondary' to={'/login'}>&#60; Back</Link>
                 <h1>Registration</h1>
                 <form onSubmit={handleSubmit} method='post' encType='multipart/form-data'>
                     <div className='form-group'>

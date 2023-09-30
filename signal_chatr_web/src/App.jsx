@@ -47,7 +47,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Navigate to={'/login'} replace={true} />} />
                 <Route path='login' element={<Login conn={conn} baseUrl={baseUrl} setUserId={setUserId} />} />
-                <Route path='register' element={<Register baseUrl={baseUrl} />} />
+                <Route path='register' element={<Register baseUrl={baseUrl} conn={conn} />} />
                 <Route path='signal'
                     element={<Chat
                         baseUrl={baseUrl}

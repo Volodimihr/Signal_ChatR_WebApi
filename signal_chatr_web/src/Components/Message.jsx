@@ -31,6 +31,13 @@ export default function Message({ msg, userId, users }) {
         </div>
       );
     }
+    else {
+      msgFile = (
+        <div className='d-flex flex-column '>
+          <button type="button" onClick={handleDownloadFile} className='btn btn-light ms-auto'>Download file</button>
+        </div>
+      );
+    }
   }
 
   return (
