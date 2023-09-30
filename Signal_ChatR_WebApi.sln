@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal_ChatR_WebApi", "Sign
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "signal_chatr_web", "Signal_ChatR_Web\signal_chatr_web.esproj", "{036B9F10-7ED5-44C7-84FF-773CEC92D639}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal_ChatR_WPF", "Signal_ChatR_WPF\Signal_ChatR_WPF.csproj", "{81FB6B62-B45C-4134-8101-331CE8B2B035}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{036B9F10-7ED5-44C7-84FF-773CEC92D639}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{036B9F10-7ED5-44C7-84FF-773CEC92D639}.Release|Any CPU.Build.0 = Release|Any CPU
 		{036B9F10-7ED5-44C7-84FF-773CEC92D639}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{81FB6B62-B45C-4134-8101-331CE8B2B035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FB6B62-B45C-4134-8101-331CE8B2B035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FB6B62-B45C-4134-8101-331CE8B2B035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FB6B62-B45C-4134-8101-331CE8B2B035}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
