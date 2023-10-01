@@ -65,7 +65,7 @@ namespace Signal_ChatR_WebApi.Controllers
             {
                 if (!message.MsgFilePath.IsNullOrEmpty())
                 {
-                    message.MsgFilePath = Convert.ToBase64String(System.IO.File.ReadAllBytes(message.MsgFilePath))+Path.GetExtension(message.MsgFilePath);
+                    message.MsgFilePath = Convert.ToBase64String(System.IO.File.ReadAllBytes(message.MsgFilePath)) + Path.GetExtension(message.MsgFilePath);
                 }
             }
 

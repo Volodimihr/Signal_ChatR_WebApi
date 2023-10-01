@@ -101,7 +101,7 @@ namespace Signal_ChatR_WebApi.Controllers
 
             return user;
         }
-        
+
         // GET: api/Users/data/5
         [HttpGet("data/{id}")]
         public async Task<ActionResult<User>> GetAvatarById(int id)

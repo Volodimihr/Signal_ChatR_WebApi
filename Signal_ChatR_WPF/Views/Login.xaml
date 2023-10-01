@@ -1,0 +1,56 @@
+﻿<Window x:Class="Signal_ChatR_WPF.Views.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Signal_ChatR_WPF.Views"
+        mc:Ignorable="d"
+        Title="Login" Height="320" Width="420">
+    <Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="DemiBold" FontStyle="Italic" >Wellcom to Signal chat</Label>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="EMail" Margin="5" />
+                    <Label Grid.Row="1" Content="Password" Margin="5" />
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0" x:Name="email" Margin="5" VerticalContentAlignment="Center" FontSize="16" />
+                    <PasswordBox Grid.Row="1" x:Name="password" Margin="5" VerticalContentAlignment="Center" FontSize="16" />
+                </Grid>
+            </Grid>
+            <Button Grid.Row="2" x:Name="loginBtn" Background="Green" Foreground="White" FontWeight="SemiBold" FontSize="16" Margin="5" Content="Login">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Row="3" x:Name="regBtn" HorizontalAlignment="Center" Content="Register" Padding="5" Foreground="blue" >
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

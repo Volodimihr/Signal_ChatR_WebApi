@@ -16,7 +16,7 @@ namespace Signal_ChatR_WebApi.Hubs
         // get loged in user id and send list of active users
         public async Task WhoPresent(int userId)
         {
-            if(!_usersId.Contains(userId))
+            if (!_usersId.Contains(userId))
             {
                 _usersId.Add(userId);
             }
@@ -24,6 +24,6 @@ namespace Signal_ChatR_WebApi.Hubs
         }
 
         public async Task Logout(int userId)
-        {  if(_usersId.Contains(userId)) { _usersId.Remove(userId); } }
+        { if (_usersId.Contains(userId)) { _usersId.Remove(userId); } }
     }
 }
